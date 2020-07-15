@@ -2,6 +2,6 @@
   Name:
   <input type="text" [formControl]="name">
 </label>
-<p>
+<p *ngIf="name && name.value">
   Value: {{ name.value }}
 </p>
