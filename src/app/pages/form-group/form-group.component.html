@@ -1,7 +1,12 @@
 <div class="row">
   <div class="col">
     <h1>Contact</h1>
-    <form class="needs-validation" novalidate>
+    <form
+      class="needs-validation"
+      novalidate
+      [formGroup]="contactForm"
+      (ngSubmit)="onSubmit()"
+    >
       <div class="form-row">
         <div class="col-md-6 mb-3">
           <label for="validationCustom01">First name</label>
@@ -10,10 +15,22 @@
             class="form-control"
             id="validationCustom01"
             placeholder="First name"
-            required
+            formControlName="firstName"
+            [ngClass]="{
+              'is-invalid': isValidField('firstName')
+            }"
           />
           <div class="invalid-feedback">
-            Please choose a firstName.
+            <span *ngIf="contactForm.get('firstName').errors?.required">
+              Please enter your first name
+            </span>
+            <span *ngIf="contactForm.get('firstName').errors?.minlength">
+              FirstName must be longer than
+              {{
+                contactForm.get("firstName").errors?.minlength?.requiredLength
+              }}
+              characters.
+            </span>
           </div>
         </div>
         <div class="col-md-6 mb-3">
@@ -27,11 +44,24 @@
               class="form-control"
               id="validationCustomUsername"
               placeholder="Username"
-              aria-describedby="inputGroupPrepend"
-              required
+              formControlName="userName"
+              [ngClass]="{ 'is-invalid': isValidField('userName') }"
             />
             <div class="invalid-feedback">
-              Please choose a username.
+              <span *ngIf="contactForm.get('userName').errors?.required">
+                Please enter your user name
+              </span>
+              <span *ngIf="contactForm.get('userName').errors?.minlength">
+                FirstName must be longer than
+                {{
+                  contactForm.get("userName").errors?.minlength?.requiredLength
+                }}
+                characters.
+              </span>
+
+              <span *ngIf="contactForm.get('userName').errors?.pattern">
+                Please enter email valid
+              </span>
             </div>
           </div>
         </div>
@@ -44,10 +74,20 @@
             class="form-control"
             id="validationCustom03"
             placeholder="City"
-            required
+            formControlName="city"
+            [ngClass]="{
+              'is-invalid': isValidField('city')
+            }"
           />
           <div class="invalid-feedback">
-            Please provide a valid city.
+            <span *ngIf="contactForm.get('city').errors?.required">
+              Please enter your city.
+            </span>
+            <span *ngIf="contactForm.get('city').errors?.minlength">
+              The city must be longer than
+              {{ contactForm.get("city").errors?.minlength?.requiredLength }}
+              characters.
+            </span>
           </div>
         </div>
         <div class="col-md-3 mb-3">
@@ -57,10 +97,20 @@
             class="form-control"
             id="validationCustom04"
             placeholder="State"
-            required
+            formControlName="state"
+            [ngClass]="{
+              'is-invalid': isValidField('state')
+            }"
           />
           <div class="invalid-feedback">
-            Please provide a valid state.
+            <span *ngIf="contactForm.get('state').errors?.required">
+              Please enter your state.
+            </span>
+            <span *ngIf="contactForm.get('state').errors?.minlength">
+              The state must be longer than
+              {{ contactForm.get("state").errors?.minlength?.requiredLength }}
+              characters.
+            </span>
           </div>
         </div>
         <div class="col-md-3 mb-3">
@@ -70,18 +120,80 @@
             class="form-control"
             id="validationCustom05"
             placeholder="Zip"
-            required
+            formControlName="zip"
+            [ngClass]="{
+              'is-invalid': isValidField('zip')
+            }"
+            maxlength="5"
           />
           <div class="invalid-feedback">
-            Please provide a valid zip.
+            <span *ngIf="contactForm.get('zip').errors?.required">
+              Please enter your zip.
+            </span>
+            <span *ngIf="contactForm.get('zip').errors?.minlength">
+              The zip must be longer than
+              {{ contactForm.get("zip").errors?.minlength?.requiredLength }}
+              characters.
+            </span>
+
+            <span *ngIf="contactForm.get('zip').errors?.pattern">
+              Zip code must be numberic.
+            </span>
           </div>
         </div>
       </div>
+
+      <div class="float-left">
+        <button class="btn btn-info btn-lg" (click)="onReset()">
+          Reset
+        </button>
+      </div>
       <div class="float-right">
-        <button type="submit" class="btn btn-primary btn-lg">
+        <button
+          type="submit"
+          class="btn btn-primary btn-lg"
+          [disabled]="contactForm.invalid"
+        >
           Submit form
         </button>
       </div>
     </form>
+    <br />
+    <div class="mt-5">
+      <button class="btn btn-info" (click)="onSetDefault()">
+        Set values Default</button
+      >&nbsp;
+      <button class="btn btn-info" (click)="onPatchValue()">
+        Patch values</button
+      >&nbsp;
+      <button class="btn btn-info" (click)="onSetValue()">
+        Set values</button
+      >&nbsp;
+    </div>
   </div>
 </div>
+
+<pre>
+  Dirty:
+  {{ contactForm.dirty }}
+</pre>
+<pre>
+  touched:
+  {{ contactForm.touched }}
+</pre>
+<pre>
+  Value:
+  {{ contactForm.value | json }}
+</pre>
+<pre>
+  Status:
+  {{ contactForm.status }}
+</pre>
+<pre>
+  Valid:
+  {{ contactForm.valid }}
+</pre>
+<pre>
+  InValid:
+  {{ contactForm.invalid }}
+</pre>
