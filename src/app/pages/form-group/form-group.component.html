@@ -1,25 +1,14 @@
 <div class="row">
   <div class="col">
     <h1>Contact</h1>
-    <form
-      class="needs-validation"
-      novalidate
-      [formGroup]="contactForm"
-      (ngSubmit)="onSubmit()"
-    >
+    <form class="needs-validation" novalidate [formGroup]="contactForm" (ngSubmit)="onSubmit()">
       <div class="form-row">
         <div class="col-md-6 mb-3">
           <label for="validationCustom01">First name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="validationCustom01"
-            placeholder="First name"
-            formControlName="firstName"
-            [ngClass]="{
+          <input type="text" class="form-control" id="validationCustom01" placeholder="First name"
+            formControlName="firstName" [ngClass]="{
               'is-invalid': isValidField('firstName')
-            }"
-          />
+            }" />
           <div class="invalid-feedback">
             <span *ngIf="contactForm.get('firstName').errors?.required">
               Please enter your first name
@@ -39,14 +28,8 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="inputGroupPrepend">@</span>
             </div>
-            <input
-              type="text"
-              class="form-control"
-              id="validationCustomUsername"
-              placeholder="Username"
-              formControlName="userName"
-              [ngClass]="{ 'is-invalid': isValidField('userName') }"
-            />
+            <input type="text" class="form-control" id="validationCustomUsername" placeholder="Username"
+              formControlName="userName" [ngClass]="{ 'is-invalid': isValidField('userName') }" />
             <div class="invalid-feedback">
               <span *ngIf="contactForm.get('userName').errors?.required">
                 Please enter your user name
@@ -66,110 +49,82 @@
           </div>
         </div>
       </div>
-      <div class="form-row">
-        <div class="col-md-6 mb-3">
-          <label for="validationCustom03">City</label>
-          <input
-            type="text"
-            class="form-control"
-            id="validationCustom03"
-            placeholder="City"
-            formControlName="city"
-            [ngClass]="{
-              'is-invalid': isValidField('city')
-            }"
-          />
-          <div class="invalid-feedback">
-            <span *ngIf="contactForm.get('city').errors?.required">
-              Please enter your city.
-            </span>
-            <span *ngIf="contactForm.get('city').errors?.minlength">
-              The city must be longer than
-              {{ contactForm.get("city").errors?.minlength?.requiredLength }}
-              characters.
-            </span>
-          </div>
-        </div>
-        <div class="col-md-3 mb-3">
-          <label for="validationCustom04">State</label>
-          <input
-            type="text"
-            class="form-control"
-            id="validationCustom04"
-            placeholder="State"
-            formControlName="state"
-            [ngClass]="{
-              'is-invalid': isValidField('state')
-            }"
-          />
-          <div class="invalid-feedback">
-            <span *ngIf="contactForm.get('state').errors?.required">
-              Please enter your state.
-            </span>
-            <span *ngIf="contactForm.get('state').errors?.minlength">
-              The state must be longer than
-              {{ contactForm.get("state").errors?.minlength?.requiredLength }}
-              characters.
-            </span>
-          </div>
-        </div>
-        <div class="col-md-3 mb-3">
-          <label for="validationCustom05">Zip</label>
-          <input
-            type="text"
-            class="form-control"
-            id="validationCustom05"
-            placeholder="Zip"
-            formControlName="zip"
-            [ngClass]="{
-              'is-invalid': isValidField('zip')
-            }"
-            maxlength="5"
-          />
-          <div class="invalid-feedback">
-            <span *ngIf="contactForm.get('zip').errors?.required">
-              Please enter your zip.
-            </span>
-            <span *ngIf="contactForm.get('zip').errors?.minlength">
-              The zip must be longer than
-              {{ contactForm.get("zip").errors?.minlength?.requiredLength }}
-              characters.
-            </span>
-
-            <span *ngIf="contactForm.get('zip').errors?.pattern">
-              Zip code must be numberic.
-            </span>
-          </div>
+      <div class="form-group">
+        <div class="col-md-6">
+          <label for="">
+            <input type="checkbox" class="form-check-input" formControlName="bill">I need a bill
+          </label>
         </div>
       </div>
+
+
+
+      <ng-container *ngIf="contactForm.get('bill').value">
+        <div class="form-row mb-5" formArrayName="addresses">
+          <ng-container [formGroupName]="i" *ngFor="let control of addresses.controls; index as i">
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label for="validationCustom03">City</label>
+                <input type="text" class="form-control" id="validationCustom03" placeholder="City"
+                  formControlName="city" />
+
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="validationCustom04">State</label>
+                <input type="text" class="form-control" id="validationCustom04" placeholder="State"
+                  formControlName="state" />
+
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="validationCustom05">Zip</label>
+                <input type="text" class="form-control" id="validationCustom05" placeholder="Zip" formControlName="zip"
+                  maxlength="5" />
+
+              </div>
+            </div>
+
+          </ng-container>
+          <button class="btn btn-info" (click)="onAddNew()">Add new Address</button>
+
+        </div>
+
+
+
+
+      </ng-container>
+
+      <!-- <div class="col-md-3 mb-3" *ngFor="let control of issues.controls; index as i">
+        <input [formControl]="issues.controls[i]">
+        <button class="btn btn-default" (click)="onRemove(i)">X</button>
+      </div> -->
+
 
       <div class="float-left">
         <button class="btn btn-info btn-lg" (click)="onReset()">
           Reset
         </button>
+        <!-- <button class="btn btn-info btn-lg" (click)="onClear()">
+          Clear
+        </button>
+        <button class="btn btn-info btn-lg" (click)="addIssue()">
+          Add Issue
+        </button> -->
       </div>
       <div class="float-right">
-        <button
-          type="submit"
-          class="btn btn-primary btn-lg"
-          [disabled]="contactForm.invalid"
-        >
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="contactForm.invalid">
           Submit form
         </button>
       </div>
     </form>
-    <br />
+    <!-- <br />
     <div class="mt-5">
       <button class="btn btn-info" (click)="onSetDefault()">
-        Set values Default</button
-      >&nbsp;
+        Set values Default</button>&nbsp;
       <button class="btn btn-info" (click)="onPatchValue()">
-        Patch values</button
-      >&nbsp;
+        Patch values</button>&nbsp;
       <button class="btn btn-info" (click)="onSetValue()">
-        Set values</button
-      >&nbsp;
-    </div>
+        Set values</button>&nbsp;
+    </div> -->
   </div>
 </div>
 
