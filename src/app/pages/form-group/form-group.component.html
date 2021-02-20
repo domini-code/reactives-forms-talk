@@ -23,32 +23,35 @@
           </div>
         </div>
         <div class="col-md-6 mb-3">
-          <label for="validationCustomUsername">Username</label>
+          <label for="validationCustomUsername">Last Name</label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="validationCustomLastName" placeholder="Last Name"
+              formControlName="lastName" />
+          </div>
+        </div>
+      </div>
+      <!-- new line  -->
+      <div class="form-row">
+        <div class="col-md-6 mb-3">
+          <label for="validationCustomEmail">Email</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text" id="inputGroupPrepend">@</span>
             </div>
-            <input type="text" class="form-control" id="validationCustomUsername" placeholder="Username"
-              formControlName="userName" [ngClass]="{ 'is-invalid': isValidField('userName') }" />
-            <div class="invalid-feedback">
-              <span *ngIf="contactForm.get('userName').errors?.required">
-                Please enter your user name
-              </span>
-              <span *ngIf="contactForm.get('userName').errors?.minlength">
-                FirstName must be longer than
-                {{
-                  contactForm.get("userName").errors?.minlength?.requiredLength
-                }}
-                characters.
-              </span>
-
-              <span *ngIf="contactForm.get('userName').errors?.pattern">
-                Please enter email valid
-              </span>
+            <input type="text" class="form-control" id="validationCustomEmail" placeholder="Email" />
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="validationCustomEmail">Confirm Email</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroupPrepend">@</span>
             </div>
+            <input type="text" class="form-control" id="validationCustomEmail" placeholder="Confirm Email" />
           </div>
         </div>
       </div>
+      <!-- end new line  -->
       <div class="form-group">
         <div class="col-md-6">
           <label for="">
@@ -56,99 +59,48 @@
           </label>
         </div>
       </div>
-
-
-
       <ng-container *ngIf="contactForm.get('bill').value">
         <div class="form-row mb-5" formArrayName="addresses">
           <ng-container [formGroupName]="i" *ngFor="let control of addresses.controls; index as i">
             <div class="form-row">
               <div class="col-md-6 mb-3">
-                <label for="validationCustom03">City</label>
                 <input type="text" class="form-control" id="validationCustom03" placeholder="City"
                   formControlName="city" />
-
               </div>
               <div class="col-md-3 mb-3">
-                <label for="validationCustom04">State</label>
                 <input type="text" class="form-control" id="validationCustom04" placeholder="State"
                   formControlName="state" />
 
               </div>
               <div class="col-md-3 mb-3">
-                <label for="validationCustom05">Zip</label>
                 <input type="text" class="form-control" id="validationCustom05" placeholder="Zip" formControlName="zip"
                   maxlength="5" />
-
               </div>
             </div>
 
+            <div class=" col-md-3 mb-3">
+              <button class="btn btn-outline-danger btn-small" (click)="onRemove(i)">X</button>
+            </div>
           </ng-container>
-          <button class="btn btn-info" (click)="onAddNew()">Add new Address</button>
-
+          <div class=" col-md-3 mb-3">
+            <button class="btn btn-info" (click)="onAddNewAddresses()">Add new Address</button>
+          </div>
         </div>
-
-
-
-
       </ng-container>
-
-      <!-- <div class="col-md-3 mb-3" *ngFor="let control of issues.controls; index as i">
-        <input [formControl]="issues.controls[i]">
-        <button class="btn btn-default" (click)="onRemove(i)">X</button>
-      </div> -->
-
-
-      <div class="float-left">
-        <button class="btn btn-info btn-lg" (click)="onReset()">
-          Reset
-        </button>
-        <!-- <button class="btn btn-info btn-lg" (click)="onClear()">
-          Clear
-        </button>
-        <button class="btn btn-info btn-lg" (click)="addIssue()">
-          Add Issue
-        </button> -->
-      </div>
-      <div class="float-right">
-        <button type="submit" class="btn btn-primary btn-lg" [disabled]="contactForm.invalid">
-          Submit form
-        </button>
+      <div class="row">
+        <div class="col">
+          <div class="float-left">
+            <button class="btn btn-info btn-lg" (click)="onReset()">
+              Reset
+            </button>
+          </div>
+          <div class="float-right">
+            <button type="submit" class="btn btn-primary btn-lg" [disabled]="contactForm.invalid">
+              Submit form
+            </button>
+          </div>
+        </div>
       </div>
     </form>
-    <!-- <br />
-    <div class="mt-5">
-      <button class="btn btn-info" (click)="onSetDefault()">
-        Set values Default</button>&nbsp;
-      <button class="btn btn-info" (click)="onPatchValue()">
-        Patch values</button>&nbsp;
-      <button class="btn btn-info" (click)="onSetValue()">
-        Set values</button>&nbsp;
-    </div> -->
   </div>
 </div>
-
-<pre>
-  Dirty:
-  {{ contactForm.dirty }}
-</pre>
-<pre>
-  touched:
-  {{ contactForm.touched }}
-</pre>
-<pre>
-  Value:
-  {{ contactForm.value | json }}
-</pre>
-<pre>
-  Status:
-  {{ contactForm.status }}
-</pre>
-<pre>
-  Valid:
-  {{ contactForm.valid }}
-</pre>
-<pre>
-  InValid:
-  {{ contactForm.invalid }}
-</pre>
