@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { emailMatcher } from '@app/shared/custom-validators/emailMatcher';
 
 @Component({
   selector: 'app-form-group',
@@ -45,13 +46,16 @@ export class FormGroupComponent implements OnInit {
     this.contactForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(3)]],
       lastName: [''],
-      userName: ['',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+      emailGroup: this.fb.group({
+        email: ['',
+          [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+          ],
         ],
-      ],
+        confirmEmail: ['', [Validators.required]]
+      }, { validators: emailMatcher('email', 'confirmEmail') }),
       bill: false,
       addresses: this.fb.array([this.formAddress()])
     });

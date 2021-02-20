@@ -31,14 +31,31 @@
         </div>
       </div>
       <!-- new line  -->
-      <div class="form-row">
+      <div class="form-row" formGroupName="emailGroup">
         <div class="col-md-6 mb-3">
           <label for="validationCustomEmail">Email</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text" id="inputGroupPrepend">@</span>
             </div>
-            <input type="text" class="form-control" id="validationCustomEmail" placeholder="Email" />
+            <input
+              [ngClass]="{ 'is-invalid' : contactForm.get('emailGroup.email')?.touched &&  contactForm.get('emailGroup.email')?.errors}"
+              type="text" class="form-control" id="validationCustomEmail" placeholder="Email" formControlName="email" />
+            <div class="invalid-feedback">
+              <span *ngIf="contactForm.get('emailGroup.email').errors?.required">
+                Email is required
+              </span>
+              <span *ngIf="contactForm.get('emailGroup.email').errors?.pattern">
+                Please enter email valid
+              </span>
+              <span *ngIf="contactForm.get('emailGroup.email').errors?.minlength">
+                Email must be longer than
+                {{
+                    contactForm.get("emailGroup.email").errors?.minlength?.requiredLength
+                  }}
+                characters.
+              </span>
+            </div>
           </div>
         </div>
         <div class="col-md-6 mb-3">
@@ -47,7 +64,18 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="inputGroupPrepend">@</span>
             </div>
-            <input type="text" class="form-control" id="validationCustomEmail" placeholder="Confirm Email" />
+            <input
+              [ngClass]="{ 'is-invalid' : contactForm.get('emailGroup.confirmEmail')?.touched &&  contactForm.get('emailGroup.confirmEmail')?.errors}"
+              type="text" class="form-control" id="validationCustomEmail" placeholder="Confirm Email"
+              formControlName="confirmEmail" />
+            <div class="invalid-feedback">
+              <span *ngIf="contactForm.get('emailGroup.confirmEmail').errors?.required">
+                Email is required
+              </span>
+              <span *ngIf="contactForm.get('emailGroup.confirmEmail').errors?.match">
+                Email must match
+              </span>
+            </div>
           </div>
         </div>
       </div>
